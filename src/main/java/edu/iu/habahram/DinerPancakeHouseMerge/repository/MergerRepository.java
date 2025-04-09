@@ -1,32 +1,30 @@
 package edu.iu.habahram.DinerPancakeHouseMerge.repository;
 
-import edu.iu.habahram.DinerPancakeHouseMerge.model.*;
+import edu.iu.habahram.DinerPancakeHouseMerge.model.MenuItem;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class MergerRepository {
+    private final DinerRepository dinerRepository;
+    private final PancakeHouseRepository pancakeHouseRepository;
 
-    public MergerRepository() {
+    public MergerRepository(DinerRepository dinerRepository,
+                            PancakeHouseRepository pancakeHouseRepository) {
 
+        this.dinerRepository = dinerRepository;
+        this.pancakeHouseRepository = pancakeHouseRepository;
     }
 
 
     public List<MenuItem> getMergedMenu() {
-        DinerMenu dinerMenu = new DinerMenu();
-        DinerMenuIterator dinerMenuIterator = dinerMenu.getIterator();
-        PancakeHouseMenu pancakeHouseMenu = new PancakeHouseMenu();
-        PancakeHouseMenuIterator pancakeHouseMenuIterator = pancakeHouseMenu.getIterator();
-        List<MenuItem> mergedMenu = new java.util.ArrayList<>();
-        while (dinerMenuIterator.hasNext()) {
-            MenuItem menuItem = dinerMenuIterator.next();
-            mergedMenu.add(menuItem);
-        }
-        while (pancakeHouseMenuIterator.hasNext()) {
-            MenuItem menuItem = pancakeHouseMenuIterator.next();
-            mergedMenu.add(menuItem);
-        }
-        return mergedMenu;
+        MenuItem[] dinerMenu = dinerRepository.getTheMenu();
+        List<MenuItem> pancakeHouseMenu = pancakeHouseRepository.getTheMenu();
+        List<MenuItem> combinedMenu = new ArrayList<>();
+        combinedMenu.addAll(List.of(dinerMenu));
+        combinedMenu.addAll(pancakeHouseMenu);
+        return combinedMenu;
     }
 }

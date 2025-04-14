@@ -14,16 +14,15 @@ public class MergerRepository {
 
     }
 
+    private static Iterator<Menu> getMenus() {
+        return Arrays.asList(new DinerMenu(), new PancakeHouseMenu(), new CafeMenu()).iterator();
+    }
 
     public List<MenuItem> getMergedMenu() {
-        DinerMenu dinerMenu = new DinerMenu();
-        PancakeHouseMenu pancakeHouseMenu = new PancakeHouseMenu();
-        CafeMenu cafeMenu = new CafeMenu();
-        Iterator<Menu> menuIterators =
-                Arrays.asList(dinerMenu, pancakeHouseMenu, cafeMenu).iterator();
+        Iterator<Menu> menus = getMenus();
         List<MenuItem> mergedMenu = new java.util.ArrayList<>();
-        while (menuIterators.hasNext()) {
-            Iterator<MenuItem> currentMenuIterator = menuIterators.next().getIterator();
+        while (menus.hasNext()) {
+            Iterator<MenuItem> currentMenuIterator = menus.next().getIterator();
             while (currentMenuIterator.hasNext()) {
                 MenuItem menuItem = currentMenuIterator.next();
                 mergedMenu.add(menuItem);

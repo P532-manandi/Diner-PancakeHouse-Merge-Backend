@@ -1,7 +1,5 @@
 package edu.iu.habahram.DinerPancakeHouseMerge.model;
 
-import java.awt.*;
-
 public class DinerMenu implements Menu {
     static final int MAX_ITEMS = 6;
     int numberOfItems = 0;

@@ -3,6 +3,7 @@ package edu.iu.habahram.DinerPancakeHouseMerge.repository;
 import edu.iu.habahram.DinerPancakeHouseMerge.model.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -14,20 +15,21 @@ public class MergerRepository {
 
     }
 
-    private static Iterator<Menu> getMenus() {
-        return Arrays.asList(new DinerMenu(), new PancakeHouseMenu(), new CafeMenu()).iterator();
+    private static Iterator<CompositeMenu> getMenus() {
+        return Arrays.asList(new DinerMenu("Diner Menu", "Lunch"),
+                new PancakeHouseMenu("Pancake House Menu", "Breakfast"),
+                new CafeMenu("Cafe Menu", "Dinner")).iterator();
     }
 
-    public List<MenuItem> getMergedMenu() {
-        Iterator<Menu> menus = getMenus();
-        List<MenuItem> mergedMenu = new java.util.ArrayList<>();
+    public List<MenuItemRecord> getMergedMenu() {
+        Iterator<CompositeMenu> menus = getMenus();
+        CompositeMenu allMenus = new CompositeMenu("All Menus", "All Menus Combined");
         while (menus.hasNext()) {
-            Iterator<MenuItem> currentMenuIterator = menus.next().getIterator();
-            while (currentMenuIterator.hasNext()) {
-                MenuItem menuItem = currentMenuIterator.next();
-                mergedMenu.add(menuItem);
-            }
+            allMenus.add(menus.next());
         }
-        return mergedMenu;
+        ArrayList<MenuItem> menuItems = allMenus.getItems();
+        return menuItems.stream()
+                .map(item -> new MenuItemRecord(item.getName(), item.getDescription(),
+                        item.isVegetarian(), item.getPrice())).toList();
     }
 }

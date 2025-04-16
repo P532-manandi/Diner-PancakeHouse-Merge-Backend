@@ -1,6 +1,6 @@
 package edu.iu.habahram.DinerPancakeHouseMerge.controllers;
 
-import edu.iu.habahram.DinerPancakeHouseMerge.model.MenuItem;
+import edu.iu.habahram.DinerPancakeHouseMerge.model.MenuItemRecord;
 import edu.iu.habahram.DinerPancakeHouseMerge.repository.MergerRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ public class MergerController {
     }
 
     @GetMapping
-    public List<MenuItem> merge() {
+    public List<MenuItemRecord> merge() {
         return mergerRepository.getMergedMenu();
     }
 }

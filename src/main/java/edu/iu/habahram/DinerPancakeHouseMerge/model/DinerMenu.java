@@ -1,13 +1,11 @@
 package edu.iu.habahram.DinerPancakeHouseMerge.model;
 
+import java.util.ArrayList;
+
 public class DinerMenu extends CompositeMenu {
-    static final int MAX_ITEMS = 6;
-    int numberOfItems = 0;
-    MenuItem[] menuItems;
 
     public DinerMenu(String name, String description) {
         super(name, description);
-        menuItems = new MenuItem[MAX_ITEMS];
 
         addItem("Vegetarian BLT", "(Fakin') Bacon with lettuce & tomato on whole wheat", true,
                 2.99);
@@ -25,21 +23,7 @@ public class DinerMenu extends CompositeMenu {
         add(menuItem);
     }
 
-    public MenuItem[] getMenuItems() {
-        return menuItems;
+    public ArrayList<MenuComponent> getMenuItems() {
+        return menuComponents;
     }
-
-    public DinerMenuIterator getIterator() {
-        return new DinerMenuIterator(menuItems);
-    }
-
-//    public String toString() {
-//        StringBuilder stringBuilder = new StringBuilder();
-//        for (MenuItem item : getMenuItems()) {
-//            stringBuilder.append(item.toString());
-//        }
-//        return stringBuilder.toString();
-//    }
-
-    // other menu methods here
 }

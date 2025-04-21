@@ -21,15 +21,41 @@ public class MergerRepository {
                 new CafeMenu("Cafe Menu", "Dinner")).iterator();
     }
 
+    private static ArrayList<MenuItemRecord> iterateOverMenus(CompositeMenu allMenus) {
+        ArrayList<MenuItemRecord> menuItemRecords = new ArrayList<>();
+        Iterator<MenuComponent> iterator = allMenus.getIterator();
+        while (iterator.hasNext()) {
+            MenuComponent menuComponent = iterator.next();
+            if (menuComponent instanceof MenuItem menuItem) {
+                MenuItemRecord menuItemRecord =
+                        new MenuItemRecord(menuItem.getName(), menuItem.getDescription(),
+                                menuItem.isVegetarian(), menuItem.getPrice());
+                menuItemRecords.add(menuItemRecord);
+            }
+        }
+        return menuItemRecords;
+    }
+
     public List<MenuItemRecord> getMergedMenu() {
         Iterator<CompositeMenu> menus = getMenus();
         CompositeMenu allMenus = new CompositeMenu("All Menus", "All Menus Combined");
         while (menus.hasNext()) {
-            allMenus.add(menus.next());
+            CompositeMenu menu = menus.next();
+            allMenus.add(menu);
         }
-        ArrayList<MenuItem> menuItems = allMenus.getItems();
-        return menuItems.stream()
-                .map(item -> new MenuItemRecord(item.getName(), item.getDescription(),
-                        item.isVegetarian(), item.getPrice())).toList();
+        return iterateOverMenus(allMenus);
+    }
+
+    public List<MenuItemRecord> getSpecificMenu(String menuType) {
+        Iterator<CompositeMenu> allMenus = getMenus();
+        CompositeMenu specificMenu = new CompositeMenu("Specific Menu", "Specific Menu");
+        while (allMenus.hasNext()) {
+            CompositeMenu menu = allMenus.next();
+            if (menu.getDescription().contains(menuType)) {
+                specificMenu.add(menu);
+            }
+        }
+        return iterateOverMenus(specificMenu);
+
     }
 }
